@@ -7,15 +7,32 @@ class Character < ActiveRecord::Base
   has_many :orders_as_deliverer, class_name: 'Order', foreign_key: "deliverer_id"
   has_many :customers, through: :orders_as_deliverer, source: :customer
 
+  def self.all_stats
+    self.all.map do |character| 
+      order_count = character.orders_as_deliverer.count
+      "#{character.name}" + " |   ".white + "#{character.seeds}".blue + "  |    " + "#{order_count}".green
+    end
+  end
+
+
+  # def self.all_stats_hash
+  #   stats_hash = Hash[self.all_stats.collect { |stat_string| [stat_string, character.]}]
+  # end
+
+  # def view_character
+
+  # end 
+
+  
   # def main menu
     # menu.choice name: "View Previous Orders", value: self.view_deliveries -> name of a method
     # menu.choice name: "Create Order", value: Order.create_order(self) # the self here is the character instance that called that new order to be created
  # end 
 
  # def view_deliveries
-    self.orders_as_deliverer.each do |order|
-      order.name
-    end 
+    # self.orders_as_deliverer.each do |order|
+    #   order.name
+    # end 
   # end
 
  #below is in order class

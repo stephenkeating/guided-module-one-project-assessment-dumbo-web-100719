@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2019_10_22_185232) do
     t.integer "deliverer_id"
     t.integer "customer_seed_cost"
     t.integer "deliverer_seed_payout"
+    t.string "status"
   end
 
 end

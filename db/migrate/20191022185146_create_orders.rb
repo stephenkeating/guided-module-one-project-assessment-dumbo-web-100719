@@ -5,6 +5,7 @@ class CreateOrders < ActiveRecord::Migration[5.2]
       t.integer :deliverer_id
       t.integer :customer_seed_cost  # subtracted from customer
       t.integer :deliverer_seed_payout # (cost + 2) paid to deliverer
+      t.string :status #open, pending delivery, delivered
     end 
   end
 end

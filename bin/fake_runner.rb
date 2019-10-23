@@ -1,6 +1,6 @@
 # class BooksApp
 
-Character menu #needs new order, deliver an order, 
+# Character menu #needs new order, deliver an order, 
 
 #   def self.run
     
@@ -98,3 +98,18 @@ Character menu #needs new order, deliver an order,
 
 
 # end
+
+    # #add 'cancel order' button if we can get multiselect to work
+    # system "clear"
+  
+    # items_list = Item.name_and_price
+    # item_selected = prompt.select("Hi " + "#{@@chosen_character.name.rstrip}".yellow + ". Press enter to add item and proceed to checkout.\n" + "Items:       Prices:", items_list, per_page: 10)
+    # item_name = item_selected.slice(0...8)
+    # @@item_selected_for_checkout = Item.find_by_name(item_name)
+    # OrderItem.create(order_id: @@open_order.id, item_id: @@item_selected_for_checkout.id)
+    # checkout_page
+
+
+
+
+

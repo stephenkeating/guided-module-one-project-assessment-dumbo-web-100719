@@ -8,5 +8,7 @@ task :console do
 end
 
 task :run do
-  GdsApp.run
+  GdsApp.main_menu
+  # GdsApp.choose_character
+  # # GdsApp.character_page
 end
