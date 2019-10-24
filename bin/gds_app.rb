@@ -86,22 +86,21 @@ class GdsApp
   
     selection = prompt.select("\nWhat would you like to do?") do |menu|
       menu.choice name: 'Place Order',  value: 1
-      menu.choice name: 'Pick a Different Item', value: 2
-      menu.choice name: 'Cancel Order',  value: 3
+      menu.choice name: 'Cancel Order',  value: 2
+      # menu.choice name: 'Pick a Different Item', value: 3
     end
     current_order = @@open_order
     if selection == 1
       current_char.update(seeds: current_char.seeds - current_order.customer_seed_cost)
       current_order.update(status: "Ready for Delivery")
       loading_pending_order_page
-    elsif selection == 2
-      @@open_order.customer_seed_cost = 0   #change to local variable?
-      @@open_order.deliverer_seed_payout = 0 #change to local variable?  
-      new_order_page
-    elsif selection == 3
+    else selection == 2  #if adding back in edit, change to elsif
       Order.where(id: current_order.id).destroy_all
-      #Order.destroy_all(id: current_order.id) 
       character_page
+      # elsif selection == 2
+      #   @@open_order.customer_seed_cost = 0   #change to local variable?
+      #   @@open_order.deliverer_seed_payout = 0 #change to local variable?  
+      #   new_order_page
     end
   end
 
@@ -145,10 +144,13 @@ class GdsApp
     system "clear"
     current_del = @@delivered_order
     current_char = @@chosen_character
-    puts "You delivered #{current_del.customer.name.rstrip.yellow}'s order! You now have " + "#{current_char.seeds} seed(s)".blue + "."# Yay, you're one step closer to saving the forest"
+    puts "You delivered #{current_del.customer.name.rstrip.yellow}'s order! You now have " + "#{current_char.seeds} seed(s)".blue + ".\n" + "\nYay, you're one step closer to saving the forest!"
+    Order.where(id: current_del.id).destroy_all
     prompt.keypress("\nPress [Enter] to return to your Character Screen", key: [:enter])
     choose_character_page
   end
+
+  #Order.where(id: current_order.id).destroy_all
 
   def self.prompt
     @@prompt ||= TTY::Prompt.new
