@@ -9,13 +9,16 @@ class Character < ActiveRecord::Base
 
   def self.all_stats
     self.all.map do |character| 
-      order_count = character.orders_as_deliverer.count
-      "#{character.name}" + " |   ".white + "#{character.seeds}".blue + "  |    " + "#{order_count}".green
+      order_count = character.orders_as_deliverer.where(status: "Ready for Delivery").count
+      char_seeds_integer = character.seeds.to_s
+      three_digit_char_seeds =  "%03d" % char_seeds_integer
+      "#{character.name}" + " |   ".white + "#{three_digit_char_seeds}".blue + "  |    " + "#{order_count}".green
     end
   end
 
   def my_orders_as_deliverer_string  #make a hash where the keys are "customer.name | seed payout" and the value is the Order instance
-    arr_of_order_name_and_price = self.orders_as_deliverer.map do |order|
+    # binding.pry
+    arr_of_order_name_and_price = self.orders_as_deliverer.where(status: "Ready for Delivery").map do |order|
       "#{order.customer.name}  |  #{order.deliverer_seed_payout}"
     end
   end

@@ -121,7 +121,7 @@ class GdsApp
     selection = prompt.select("Choose an order to deliver.", current_char.my_orders_as_deliverer_hash)
     @@current_delivery = selection
     current_char.seeds += selection.deliverer_seed_payout
-    selection.status = "delivered"
+    selection.update(status: "Delivered")
     delivery_splash_page
   end
 
@@ -129,7 +129,7 @@ class GdsApp
     system "clear"
     current_del = @@current_delivery
     current_char = @@chosen_character
-    puts "You delivered #{current_del.customer.name.rstrip}'s order! Your new balance is #{current_char.seeds}."# Yay, you're one step closer to saving the forest"
+    puts "You delivered #{current_del.customer.name.rstrip}'s order! You now what #{current_char.seeds} seed(s)."# Yay, you're one step closer to saving the forest"
     prompt.keypress("Press Enter to return to your Character Screen", key: [:enter])
     choose_character_page
   end

@@ -10,12 +10,12 @@ noface = Character.create(name: "Noface  ", seeds: 10)
 sophie = Character.create(name: "Sophie  ", seeds: 10)
 calcifer = Character.create(name: "Calcifer", seeds: 10)
 satsuki = Character.create(name: "Satsuki ", seeds: 10)
-mei = Character.create(name: "Mei     ", seeds: 10)
-# kiki = Character.create(name: "Kiki", seeds: 10)
-# totoro = Character.create(name: "Totoro", seeds: 10)
-# haku = Character.create(name: "Haku", seeds: 10)
-# howl = Character.create(name: "Howl", seeds: 10)
-# catbus = Character.create(name: "Catbus", seeds: 10)
+# mei = Character.create(name: "Mei     ", seeds: 10)
+kiki = Character.create(name: "Kiki    ", seeds: 10)
+totoro = Character.create(name: "Totoro  ", seeds: 10)
+haku = Character.create(name: "Haku    ", seeds: 10)
+howl = Character.create(name: "Howl    ", seeds: 10)
+catbus = Character.create(name: "Catbus  ", seeds: 10)
 
 #Items Data
 
