@@ -20,7 +20,7 @@ class Character < ActiveRecord::Base
     end
   end
 
-  def my_orders_as_deliverer_hash # returns a hash with a strong of customer name and order payout as key, and order instance as value
+  def my_orders_as_deliverer_hash # returns a hash with a string of customer name and order payout as key, and order instance as value
     self.my_orders_as_deliverer_string.zip(self.orders_as_deliverer).to_h
   end
 

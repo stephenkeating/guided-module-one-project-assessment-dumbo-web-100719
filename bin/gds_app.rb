@@ -84,7 +84,7 @@ class GdsApp
     end
     current_order = @@open_order
     if selection == 1
-      current_char.seeds -= current_order.customer_seed_cost
+      current_char.update(seeds: current_char.seeds - current_order.customer_seed_cost)
       current_order.update(status: "Ready for Delivery")
       loading_pending_order_page
     elsif selection == 2
@@ -131,7 +131,7 @@ class GdsApp
     current_char = @@chosen_character
     puts "You delivered #{current_del.customer.name.rstrip}'s order! Your new balance is #{current_char.seeds}."# Yay, you're one step closer to saving the forest"
     prompt.keypress("Press Enter to return to your Character Screen", key: [:enter])
-    character_page
+    choose_character_page
   end
 
   def self.prompt
