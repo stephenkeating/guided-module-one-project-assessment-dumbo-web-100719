@@ -63,7 +63,7 @@ class GdsApp
   def self.new_order_page #show the seeds but make sure they have enough 
     #add 'cancel order' button if we can get multiselect to work
     system "clear"
-  
+    current_order = @@open_order
     # items_list = Item.name_and_price
     # @@item_selected_for_checkout = prompt.select("Hi " + "#{@@chosen_character.name.rstrip}".yellow + ". Press enter to add item and proceed to checkout.\n" + "Items:       Prices:", items_list, per_page: 10)
     # #OrderItem.create(order_id: )
@@ -72,9 +72,11 @@ class GdsApp
     @@item_selected_name_and_price = prompt.select("#{@@chosen_character.name.rstrip}".yellow + ", what would you like to order?\n" + "\nPress [Enter] to add item and proceed to Checkout.\n" + "\nItems:   |   Prices:" + "\n-----------------------\n", items_list, per_page: 10)
     selected_item_name =  @@item_selected_name_and_price.slice(10...18)
     @@item_selected_for_checkout = Item.find_by_name(selected_item_name)
-    OrderItem.create(order_id: @@open_order.id, item_id: @@item_selected_for_checkout.id)
-    @@open_order.customer_seed_cost += @@item_selected_for_checkout.price
-    @@open_order.deliverer_seed_payout += @@open_order.customer_seed_cost + 2
+    OrderItem.create(order_id: current_order.id, item_id: @@item_selected_for_checkout.id)
+    current_order.update(customer_seed_cost: @@item_selected_for_checkout.price)  #fix this line of code
+    # current_order.update(customer_seed_cost: current_order.customer_seed_cost + @@item_selected_for_checkout.price)  #fix this line of code
+    # current_order.update(deliverer_seed_payout: deliverer_seed_payout + current_order.customer_seed_cost + 5)
+    current_order.update(deliverer_seed_payout: current_order.customer_seed_cost + 5)
     checkout_page
     
   end
@@ -140,17 +142,35 @@ class GdsApp
     end 
   end
 
+  # def self.delivery_splash_page
+  #   system "clear"
+  #   current_del = @@delivered_order
+  #   current_char = @@chosen_character
+  #   puts "You delivered #{current_del.customer.name.rstrip.yellow}'s order! You now have " + "#{current_char.seeds} seed(s)".blue + ".\n" + "\nYay, you're one step closer to saving the forest!"
+  #   Order.where(id: current_del.id).destroy_all
+  #   prompt.keypress("\nPress [Enter] to return to your Character Screen", key: [:enter])
+  #   choose_character_page
+  # end
+
   def self.delivery_splash_page
     system "clear"
     current_del = @@delivered_order
     current_char = @@chosen_character
-    puts "You delivered #{current_del.customer.name.rstrip.yellow}'s order! You now have " + "#{current_char.seeds} seed(s)".blue + ".\n" + "\nYay, you're one step closer to saving the forest!"
-    Order.where(id: current_del.id).destroy_all
-    prompt.keypress("\nPress [Enter] to return to your Character Screen", key: [:enter])
-    choose_character_page
+    if Character.sum(:seeds) >= 210
+      saved_forest_page
+    else 
+      puts "You delivered #{current_del.customer.name.rstrip.yellow}'s order! You now have " + "#{current_char.seeds} seed(s)".blue + ".\n" + "\nYay, you're one step closer to saving the forest!"
+      Order.where(id: current_del.id).destroy_all
+      prompt.keypress("\nPress [Enter] to return to your Character Screen", key: [:enter])
+      choose_character_page
+    end 
   end
 
-  #Order.where(id: current_order.id).destroy_all
+  def self.saved_forest_page
+    system "clear"
+    puts "You saved the forest from the ravaging armies! yayyyyyyyyyyyyyy *fireworks* yayyyy"
+    sleep(30)
+  end
 
   def self.prompt
     @@prompt ||= TTY::Prompt.new
@@ -161,3 +181,8 @@ class GdsApp
 
 end
 
+
+
+#psuedocode
+# on delivery splash page
+#if Character.sum(:seeds) >= 220 send to Saved Forest Page
