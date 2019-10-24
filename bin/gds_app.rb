@@ -9,14 +9,15 @@ class GdsApp
   @@all_characters_without_chosen_character
   @@open_order
   @@item_selected_name_and_price
+  @@current_delivery
 
 #use a clear after each method
 
   def self.main_menu
     #put clear command here to clean up the CLI
     system "clear"
-    puts "Hello and welcome to Ghibli Delivery Serviceß!".green
-    prompt.keypress("Enter", key: [:enter])
+    puts "Hello and welcome to Ghibli Delivery Service!".green
+    prompt.keypress("Press Enter to Start", key: [:enter])
     choose_character_page
   end
 
@@ -45,10 +46,8 @@ class GdsApp
      @@open_order = Order.create(customer_id: @@chosen_character.id, deliverer_id: @@all_characters_without_chosen_character.sample.id, customer_seed_cost: 0, deliverer_seed_payout: 0, status: "open")
       new_order_page
     elsif selection == 2
-      # deliver_order_page
+      deliver_order_page
     elsif selection == 3
-      # view_history_page
-    elsif selection == 4
       choose_character_page
     end
   end
@@ -67,12 +66,15 @@ class GdsApp
     selected_item_name =  @@item_selected_name_and_price.slice(10...18)
     @@item_selected_for_checkout = Item.find_by_name(selected_item_name)
     OrderItem.create(order_id: @@open_order.id, item_id: @@item_selected_for_checkout.id)
+    @@open_order.customer_seed_cost += @@item_selected_for_checkout.price
+    @@open_order.deliverer_seed_payout += @@open_order.customer_seed_cost + 2
     checkout_page
     
   end
 
   def self.checkout_page
     system "clear"
+    current_char = @@chosen_character
     puts "Hi " + "#{@@chosen_character.name.rstrip}".yellow + ", here is your order!\n" + "\nCart" + "\n-----------------------------\n"+ "Item:  Price:     " + "\n-----------------------------\n" + "#{@@item_selected_name_and_price}"
   
     selection = prompt.select("\nWhat would you like to do?") do |menu|
@@ -80,24 +82,61 @@ class GdsApp
       menu.choice name: 'Pick a Different Item', value: 2
       menu.choice name: 'Cancel Order',  value: 3
     end
+    current_order = @@open_order
     if selection == 1
+      current_char.seeds -= current_order.customer_seed_cost
+      current_order.update(status: "Ready for Delivery")
       loading_pending_order_page
     elsif selection == 2
+      @@open_order.customer_seed_cost = 0
+      @@open_order.deliverer_seed_payout = 0
       new_order_page
     elsif selection == 3
+      Order.where(id: current_order.id).destroy_all
+      #Order.destroy_all(id: current_order.id) 
       character_page
     end
   end
 
   def self.loading_pending_order_page
-    #put an image here and bring back to main menu; say ___is delivering your order; change order status to "ready to deliver"
-    prompt.keypress("Enter", key: [:enter])
+    #put an image here and bring back to main menu; say ___is delivering your order
+    system "clear"
+    current_order = @@open_order
+    puts "#{current_order.deliverer.name.rstrip} is currently delivering your order!"
+    prompt.keypress("Press Enter to Return to the Character Selection Screen", key: [:enter])
     choose_character_page
   end
 
+  def self.deliver_order_page
+    system "clear"
+    current_char = @@chosen_character
+    order_count = current_char.orders_as_deliverer.count
+    puts "Welcome #{current_char.name.rstrip}, you currently have #{order_count} order(s) to deliver."
+
+    # pull hash of all available orders for the deliverer with string as key, and order instance as value. 
+    # add payout to current_user's seed bank.
+    # is there a way to add an additional menu item after the array that generated a bunch of menu items? yes == we'll need an if then before we do prompt.select
+
+    #current_char.my_orders_as_deliverer_hash
+    selection = prompt.select("Choose an order to deliver.", current_char.my_orders_as_deliverer_hash)
+    @@current_delivery = selection
+    current_char.seeds += selection.deliverer_seed_payout
+    selection.status = "delivered"
+    delivery_splash_page
+  end
+
+  def self.delivery_splash_page
+    system "clear"
+    current_del = @@current_delivery
+    current_char = @@chosen_character
+    puts "You delivered #{current_del.customer.name.rstrip}'s order! Your new balance is #{current_char.seeds}."# Yay, you're one step closer to saving the forest"
+    prompt.keypress("Press Enter to return to your Character Screen", key: [:enter])
+    character_page
+  end
+
   def self.prompt
-        @@prompt ||= TTY::Prompt.new
-      end
+    @@prompt ||= TTY::Prompt.new
+  end
     
 
   

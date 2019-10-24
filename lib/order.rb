@@ -8,4 +8,8 @@ class Order < ActiveRecord::Base
       order.deliverer_id
     end
   end
+
+
+
+
 end 

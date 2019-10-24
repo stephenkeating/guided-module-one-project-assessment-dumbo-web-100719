@@ -8,6 +8,7 @@ gem 'require_all'
 gem 'sqlite3', '~> 1.3.6'
 gem 'pry'
 gem 'colorize'
+gem 'activerecord-reset-pk-sequence'
 
 gem 'tty-prompt' #, '~> 0.19.0'
 gem 'httparty' #, '~> 0.17.1'

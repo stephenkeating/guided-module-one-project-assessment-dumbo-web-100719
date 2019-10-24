@@ -1,6 +1,7 @@
 Character.destroy_all
 Item.destroy_all
 Order.destroy_all
+OrderItem.destroy_all
 
 #Characters Data
 
@@ -28,8 +29,8 @@ toy_boat = Item.create(name: "Toy Boat", price: 8)
 hat = Item.create(name: "Hat     ", price: 7)
 
 #Orders -- optional seed, to be deleted before playing the game
-Order.create(customer: ponyo, deliverer: noface, customer_seed_cost: 5, deliverer_seed_payout: 7, status: "open")
-Order.create(customer: noface, deliverer: sophie, customer_seed_cost: 5, deliverer_seed_payout: 7, status: "open")
+# Order.create(customer: ponyo, deliverer: noface, customer_seed_cost: 5, deliverer_seed_payout: 7, status: "open")
+# Order.create(customer: noface, deliverer: mei, customer_seed_cost: 5, deliverer_seed_payout: 7, status: "Ready for Delivery")
 
 
 # @order_1 = Order.create(customer_id: 1, deliverer_id: 2, customer_seed_cost: 5, deliverer_seed_payout: 7)

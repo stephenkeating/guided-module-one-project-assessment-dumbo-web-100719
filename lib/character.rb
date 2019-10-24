@@ -14,6 +14,16 @@ class Character < ActiveRecord::Base
     end
   end
 
+  def my_orders_as_deliverer_string  #make a hash where the keys are "customer.name | seed payout" and the value is the Order instance
+    arr_of_order_name_and_price = self.orders_as_deliverer.map do |order|
+      "#{order.customer.name}  |  #{order.deliverer_seed_payout}"
+    end
+  end
+
+  def my_orders_as_deliverer_hash # returns a hash with a strong of customer name and order payout as key, and order instance as value
+    self.my_orders_as_deliverer_string.zip(self.orders_as_deliverer).to_h
+  end
+
 
   # def self.all_stats_hash
   #   stats_hash = Hash[self.all_stats.collect { |stat_string| [stat_string, character.]}]
