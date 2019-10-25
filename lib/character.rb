@@ -8,12 +8,14 @@ class Character < ActiveRecord::Base
   has_many :customers, through: :orders_as_deliverer, source: :customer
 
   def self.all_stats
-    self.all.map do |character| 
+    array = []
+    array = self.all.map do |character| 
       order_count = character.orders_as_deliverer.where(status: "Ready for Delivery").count
       char_seeds_integer = character.seeds.to_s
       three_digit_char_seeds =  "%03d" % char_seeds_integer
       "#{character.name}" + " |   ".white + "#{three_digit_char_seeds}".blue + "  |    " + "#{order_count}".green
     end
+    array << "Main Menu".magenta
   end
 
   def my_orders_as_deliverer_string  #make a hash where the keys are "customer.name | seed payout" and the value is the Order instance
@@ -54,7 +56,129 @@ class Character < ActiveRecord::Base
 
   # end 
 
+
+  def display_art
+    # binding.pry
+    if self.name == "Haku    "
+    
+      Catpix::print_image "./gds_pics/haku_pixel.png",
+        :limit_x => 1,
+        :limit_y => 0,
+        :center_x => true,
+        :center_y => true,
+        :bg => "white",
+        :bg_fill => false#,
+        #:resolution => "low"
+
+    elsif self.name == "Ponyo   "
+
+      Catpix::print_image "./gds_pics/ponyo_pixel.png",
+        :limit_x => 1,
+        :limit_y => 0,
+        :center_x => true,
+        :center_y => true,
+        :bg => "white",
+        :bg_fill => false,
+        :resolution => "low"
+
+    elsif self.name == "Totoro  "
+
+      Catpix::print_image "./gds_pics/totoro_pixel.png",
+      :limit_x => 1,
+      :limit_y => 0,
+      :center_x => true,
+      :center_y => true,
+      :bg => "white",
+      :bg_fill => false,
+      :resolution => "low"
+
+    elsif self.name == "Noface  "
+
+      Catpix::print_image "./gds_pics/noface_pixel.png",
+      :limit_x => 1,
+      :limit_y => 0,
+      :center_x => true,
+      :center_y => true,
+      :bg => "white",
+      :bg_fill => false,
+      :resolution => "low"
+
+    elsif self.name == "Catbus  "
+
+      Catpix::print_image "./gds_pics/catbus_pixel.jpg",
+      :limit_x => 1,
+      :limit_y => 0,
+      :center_x => true,
+      :center_y => true,
+      :bg => "white",
+      :bg_fill => false,
+      :resolution => "low"
+
+    elsif self.name == "Howl    "
+
+      Catpix::print_image "./gds_pics/howl_pixel.png",
+      :limit_x => 1,
+      :limit_y => 0,
+      :center_x => true,
+      :center_y => true,
+      :bg => "white",
+      :bg_fill => false,
+      :resolution => "low"
+
+    elsif self.name == "Kiki    "
+
+      pid = fork{ exec 'afplay', "./gds_music/feelings.mp3" } 
+
+      Catpix::print_image "./gds_pics/kiki_pixel.png",
+      :limit_x => 1,
+      :limit_y => 0,
+      :center_x => true,
+      :center_y => true,
+      :bg => "white",
+      :bg_fill => false,
+      :resolution => "low"
+
+    elsif self.name == "Calcifer"
+
+      Catpix::print_image "./gds_pics/calcifer_pixel.jpg",
+      :limit_x => 1,
+      :limit_y => 0,
+      :center_x => true,
+      :center_y => true,
+      :bg => "white",
+      :bg_fill => false,
+      :resolution => "low"
+
+    elsif self.name == "Sophie  "
+
+      Catpix::print_image "./gds_pics/sophie.jpg",
+      :limit_x => 0.45,
+      :limit_y => 0,
+      :center_x => true,
+      :center_y => true,
+      :bg => "white",
+      :bg_fill => false,
+      :resolution => "low"
+
+    elsif self.name == "Satsuki "
+
+      Catpix::print_image "./gds_pics/satsuki.jpg",
+      :limit_x => 0.45,
+      :limit_y => 0,
+      :center_x => true,
+      :center_y => true,
+      :bg => "white",
+      :bg_fill => false,
+      :resolution => "low"
+
+    end
+  end
  
 
 end
 
+
+
+# No art for:
+# sophie
+# satsuki

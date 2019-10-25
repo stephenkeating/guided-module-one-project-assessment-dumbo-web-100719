@@ -18,3 +18,10 @@ gem 'rmagick'
 gem 'tco'
 gem 'catpix'
 gem 'ascii-image'
+
+
+
+#The following fixed the mini_magick bundle problem for Stephen:
+# To solve the issue in Mac OSX Sierra, High Sierra, El Capitan, and Mojave, type the following in the terminal:
+# brew unlink imagemagick
+# brew install imagemagick@6 && brew link imagemagick@6 --force
