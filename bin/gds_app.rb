@@ -256,7 +256,8 @@ class GdsApp
       :center_y => true,
       :bg => "white",
       :bg_fill => false
-    sleep(5)
+    sleep(10)
+    pid = fork{ exec 'afplay', "./gds_music/end_song.mp3" }
     selection = prompt.select("\n") do |menu|
       system 'killall afplay'
       menu.choice name: 'Quit',  value: 1
