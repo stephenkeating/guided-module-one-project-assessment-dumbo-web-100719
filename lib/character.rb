@@ -126,7 +126,7 @@ class Character < ActiveRecord::Base
       #:resolution => "low"
 
     elsif self.name == "Kiki    "
-
+      system 'killall afplay'
       pid = fork{ exec 'afplay', "./gds_music/feelings.mp3" } 
 
       Catpix::print_image "./gds_pics/kiki_pixel.png",

@@ -81,11 +81,14 @@ class GdsApp
     end
     if selection == 1
       #binding.pry
+      system 'killall afplay'
      @@open_order = Order.create(customer_id: @@chosen_character.id, deliverer_id: @@all_characters_without_chosen_character.sample.id, customer_seed_cost: 0, deliverer_seed_payout: 0, status: "open")
       new_order_page
     elsif selection == 2
+      system 'killall afplay'
       deliver_order_page
     elsif selection == 3
+      system 'killall afplay'
       choose_character_page
     end
   end
@@ -132,7 +135,7 @@ class GdsApp
 
     elsif selection == 1 && current_char.seeds < current_total
       system "clear"
-
+      system 'killall afplay'
       pid = fork{ exec 'afplay', "./gds_music/no_seeds.mp3" } 
       
       Catpix::print_image "./gds_pics/sad_pixel.jpg",
@@ -172,7 +175,7 @@ class GdsApp
     current_char = @@chosen_character
     order_count = current_char.orders_as_deliverer.count 
     if order_count == 0
-      
+      system 'killall afplay'
       pid = fork{ exec 'afplay', "./gds_music/no_seeds.mp3" } 
       
       Catpix::print_image "./gds_pics/sad_pixel.jpg",
@@ -244,6 +247,7 @@ class GdsApp
   def self.saved_forest_page
     system "clear"
     puts "Congratulations, you saved the forest from the ravaging armies! The forest spirit thanks you.".green
+    system 'killall afplay'
     pid = fork{ exec 'afplay', "./gds_music/super_mario_win.mp3" }
     Catpix::print_image "./gds_pics/characters_pixel.jpg",
       :limit_x => 1.0,
@@ -254,12 +258,15 @@ class GdsApp
       :bg_fill => false
     sleep(5)
     selection = prompt.select("\n") do |menu|
+      system 'killall afplay'
       menu.choice name: 'Quit',  value: 1
       menu.choice name: 'Reset the Game and Play Again', value: 2
     end
     if selection == 1
+      system 'killall afplay'
       puts "Thanks for playing Ghibli Delivery Service!"
     elsif selection == 2
+      system 'killall afplay'
       Order.destroy_all
       Character.all.update(seeds: 20)
       main_menu
