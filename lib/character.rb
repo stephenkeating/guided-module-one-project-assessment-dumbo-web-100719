@@ -78,8 +78,8 @@ class Character < ActiveRecord::Base
         :center_x => true,
         :center_y => true,
         :bg => "white",
-        :bg_fill => false,
-        :resolution => "low"
+        :bg_fill => false#,
+        #:resolution => "low"
 
     elsif self.name == "Totoro  "
 
@@ -89,8 +89,8 @@ class Character < ActiveRecord::Base
       :center_x => true,
       :center_y => true,
       :bg => "white",
-      :bg_fill => false,
-      :resolution => "low"
+      :bg_fill => false#,
+      #:resolution => "low"
 
     elsif self.name == "Noface  "
 
@@ -100,8 +100,8 @@ class Character < ActiveRecord::Base
       :center_x => true,
       :center_y => true,
       :bg => "white",
-      :bg_fill => false,
-      :resolution => "low"
+      :bg_fill => false#
+      #:resolution => "low"
 
     elsif self.name == "Catbus  "
 
@@ -111,8 +111,8 @@ class Character < ActiveRecord::Base
       :center_x => true,
       :center_y => true,
       :bg => "white",
-      :bg_fill => false,
-      :resolution => "low"
+      :bg_fill => false#,
+      #:resolution => "low"
 
     elsif self.name == "Howl    "
 
@@ -122,8 +122,8 @@ class Character < ActiveRecord::Base
       :center_x => true,
       :center_y => true,
       :bg => "white",
-      :bg_fill => false,
-      :resolution => "low"
+      :bg_fill => false#,
+      #:resolution => "low"
 
     elsif self.name == "Kiki    "
 
@@ -135,8 +135,8 @@ class Character < ActiveRecord::Base
       :center_x => true,
       :center_y => true,
       :bg => "white",
-      :bg_fill => false,
-      :resolution => "low"
+      :bg_fill => false#,
+      #:resolution => "low"
 
     elsif self.name == "Calcifer"
 
@@ -146,8 +146,8 @@ class Character < ActiveRecord::Base
       :center_x => true,
       :center_y => true,
       :bg => "white",
-      :bg_fill => false,
-      :resolution => "low"
+      :bg_fill => false#,
+      #:resolution => "low"
 
     elsif self.name == "Sophie  "
 
@@ -157,8 +157,8 @@ class Character < ActiveRecord::Base
       :center_x => true,
       :center_y => true,
       :bg => "white",
-      :bg_fill => false,
-      :resolution => "low"
+      :bg_fill => false#,
+      #:resolution => "low"
 
     elsif self.name == "Satsuki "
 
@@ -168,8 +168,8 @@ class Character < ActiveRecord::Base
       :center_x => true,
       :center_y => true,
       :bg => "white",
-      :bg_fill => false,
-      :resolution => "low"
+      :bg_fill => false#,
+      #:resolution => "low"
 
     end
   end

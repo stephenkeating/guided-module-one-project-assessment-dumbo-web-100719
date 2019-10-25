@@ -100,7 +100,7 @@ class GdsApp
     # #OrderItem.create(order_id: )
 
     items_list = Item.name_and_price
-    @@item_selected_name_and_price = prompt.select("#{@@chosen_character.name.rstrip}".yellow + ", what would you like to order?\n" + "\nPress [Enter] to add item and proceed to Checkout.\n" + "\nItems:   |   Prices:" + "\n-----------------------\n", items_list, per_page: 10)
+    @@item_selected_name_and_price = prompt.select("#{@@chosen_character.name.rstrip}".yellow + ", you have " + "#{@@chosen_character.seeds} seed(s)".blue + "." + "What would you like to order?\n" + "\nPress [Enter] to add item and proceed to Checkout.\n" + "\nItems:   |   Prices:" + "\n-----------------------\n", items_list, per_page: 10)
     selected_item_name =  @@item_selected_name_and_price.slice(10...18)
     @@item_selected_for_checkout = Item.find_by_name(selected_item_name)
     OrderItem.create(order_id: current_order.id, item_id: @@item_selected_for_checkout.id)
@@ -115,7 +115,8 @@ class GdsApp
   def self.checkout_page
     system "clear"
     current_char = @@chosen_character
-    puts "Here is your order " + "#{@@chosen_character.name.rstrip}".yellow + ".\n" + "\nCart" + "\n-----------------------------\n"+ "Item:  |  Price:     " + "\n-----------------------------\n" + "#{@@item_selected_name_and_price}"
+    current_total = @@item_selected_for_checkout.price
+    puts "Here is your order " + "#{@@chosen_character.name.rstrip}".yellow + ". You currently have " + "#{@@chosen_character.seeds} seed(s)".blue + "." + "\nCart" + "\n-----------------------------\n"+ "Item:  |  Price:     " + "\n-----------------------------\n" + "#{@@item_selected_name_and_price}"
   
     selection = prompt.select("\nWhat would you like to do?") do |menu|
       menu.choice name: 'Place Order',  value: 1
@@ -123,11 +124,31 @@ class GdsApp
       # menu.choice name: 'Pick a Different Item', value: 3
     end
     current_order = @@open_order
-    if selection == 1
+
+    if selection == 1 && current_char.seeds >= current_total
       current_char.update(seeds: current_char.seeds - current_order.customer_seed_cost)
       current_order.update(status: "Ready for Delivery")
       loading_pending_order_page
-    else selection == 2  #if adding back in edit, change to elsif
+
+    elsif selection == 1 && current_char.seeds < current_total
+      system "clear"
+
+      pid = fork{ exec 'afplay', "./gds_music/no_seeds.mp3" } 
+      
+      Catpix::print_image "./gds_pics/sad_pixel.jpg",
+      :limit_x => 0.4,
+      :limit_y => 0,
+      :center_x => true,
+      :center_y => true,
+      :bg => "white",
+      :bg_fill => false
+
+      puts "Sorry, you don't have enough seeds to place this order.".magenta
+      sleep(5)
+      Order.where(id: current_order.id).destroy_all
+      character_page
+
+    elsif selection == 2  #if adding back in edit, change to elsif
       Order.where(id: current_order.id).destroy_all
       character_page
       # elsif selection == 2
@@ -151,7 +172,20 @@ class GdsApp
     current_char = @@chosen_character
     order_count = current_char.orders_as_deliverer.count 
     if order_count == 0
-      prompt.keypress("You currently have no deliveries. Press [Enter] to return to Character Selection menu.", key: [:enter])
+      
+      pid = fork{ exec 'afplay', "./gds_music/no_seeds.mp3" } 
+      
+      Catpix::print_image "./gds_pics/sad_pixel.jpg",
+      :limit_x => 0.4,
+      :limit_y => 0,
+      :center_x => true,
+      :center_y => true,
+      :bg => "white",
+      :bg_fill => false
+
+      puts "You currently have no deliveries.".magenta
+      #prompt.keypress("You currently have no deliveries. Press [Enter] to return to Character Selection menu.", key: [:enter])
+      sleep(5)
       choose_character_page
     else 
     puts "Welcome " + "#{current_char.name.rstrip}".yellow + ", you currently have" + " #{order_count} order(s)".green + " to deliver."
@@ -211,14 +245,25 @@ class GdsApp
     system "clear"
     puts "Congratulations, you saved the forest from the ravaging armies! The forest spirit thanks you.".green
     pid = fork{ exec 'afplay', "./gds_music/super_mario_win.mp3" }
-    Catpix::print_image "./gds_pics/characters.jpg",
+    Catpix::print_image "./gds_pics/characters_pixel.jpg",
       :limit_x => 1.0,
       :limit_y => 0,
       :center_x => true,
       :center_y => true,
       :bg => "white",
       :bg_fill => false
-    sleep(30)
+    sleep(5)
+    selection = prompt.select("\n") do |menu|
+      menu.choice name: 'Quit',  value: 1
+      menu.choice name: 'Reset the Game and Play Again', value: 2
+    end
+    if selection == 1
+      puts "Thanks for playing Ghibli Delivery Service!"
+    elsif selection == 2
+      Order.destroy_all
+      Character.all.update(seeds: 20)
+      main_menu
+    end
   end
 
   def self.prompt
