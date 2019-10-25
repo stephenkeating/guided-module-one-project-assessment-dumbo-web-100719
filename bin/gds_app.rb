@@ -23,6 +23,18 @@ class GdsApp
     \nHeal the Forest by working together with your friends to gather magical seeds.
     \nPlace and deliver orders to each other create more seeds.
     \nLet's play!"
+    # ascii = ASCII_Image.new("http://www.levihackwith.com/wp-content/uploads/2011/10/github-logo.png")
+    # ascii.build(8) can't get 'ascii-image' gem to work 
+    pid = fork{ exec 'afplay', "./gds_music/main.mp3" } 
+
+    Catpix::print_image "./gds_pics/characters.jpg",
+      :limit_x => 1.0,
+      :limit_y => 0,
+      :center_x => true,
+      :center_y => true,
+      :bg => "white",
+      :bg_fill => false
+
     prompt.keypress("\nPress [Enter] to Start", key: [:enter])
     choose_character_page
   end
@@ -168,7 +180,15 @@ class GdsApp
 
   def self.saved_forest_page
     system "clear"
-    puts "You saved the forest from the ravaging armies! yayyyyyyyyyyyyyy *fireworks* yayyyy"
+    puts "Congratulations, you saved the forest from the ravaging armies! The forest spirit thanks you.".green
+    pid = fork{ exec 'afplay', "./gds_music/super_mario_win.mp3" }
+    Catpix::print_image "./gds_pics/princess_mononoke.jpg",
+      :limit_x => 1.0,
+      :limit_y => 0,
+      :center_x => true,
+      :center_y => true,
+      :bg => "white",
+      :bg_fill => false
     sleep(30)
   end
 

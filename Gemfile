@@ -13,4 +13,8 @@ gem 'activerecord-reset-pk-sequence'
 gem 'tty-prompt' #, '~> 0.19.0'
 gem 'httparty' #, '~> 0.17.1'
 
-
+gem 'mini_magick'
+gem 'rmagick'
+gem 'tco'
+gem 'catpix'
+gem 'ascii-image'
