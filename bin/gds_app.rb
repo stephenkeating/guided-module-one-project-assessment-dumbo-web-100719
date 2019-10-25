@@ -176,13 +176,4 @@ class GdsApp
     @@prompt ||= TTY::Prompt.new
   end
     
-
-  
-
 end
-
-
-
-#psuedocode
-# on delivery splash page
-#if Character.sum(:seeds) >= 220 send to Saved Forest Page
