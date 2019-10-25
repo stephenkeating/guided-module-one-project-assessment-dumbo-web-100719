@@ -249,7 +249,7 @@ class GdsApp
     system "clear"
     puts "Congratulations, you saved the forest from the ravaging armies! The forest spirit thanks you.".green
     kill_music
-    pid = fork{ exec 'afplay', "./gds_music/super_mario_win.mp3" }
+    pid = fork{ exec 'afplay', "./gds_music/end_song_combined.mp3" }
     Catpix::print_image "./gds_pics/characters_pixel.jpg",
       :limit_x => 1.0,
       :limit_y => 0,
@@ -257,10 +257,8 @@ class GdsApp
       :center_y => true,
       :bg => "white",
       :bg_fill => false
-    sleep(10)
-    pid = fork{ exec 'afplay', "./gds_music/end_song.mp3" }
+    sleep(8)
     selection = prompt.select("\n") do |menu|
-      kill_music
       menu.choice name: 'Quit',  value: 1
       menu.choice name: 'Reset the Game and Play Again', value: 2
     end
@@ -278,9 +276,6 @@ class GdsApp
   def self.prompt
     @@prompt ||= TTY::Prompt.new
   end
-    
-
-  private
   
   def self.kill_music
     pid = fork{ exec 'afplay', "./gds_music/silence.mp3" }

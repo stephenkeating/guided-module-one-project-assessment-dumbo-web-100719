@@ -72,6 +72,8 @@ class Character < ActiveRecord::Base
 
     elsif self.name == "Ponyo   "
 
+      pid = fork{ exec 'afplay', "./gds_music/ponyo_song.mp3" } 
+
       Catpix::print_image "./gds_pics/ponyo_pixel.png",
         :limit_x => 1,
         :limit_y => 0,
@@ -82,6 +84,8 @@ class Character < ActiveRecord::Base
         #:resolution => "low"
 
     elsif self.name == "Totoro  "
+
+      pid = fork{ exec 'afplay', "./gds_music/totoro_song.mp3" } 
 
       Catpix::print_image "./gds_pics/totoro_pixel.png",
       :limit_x => 1,
@@ -105,6 +109,8 @@ class Character < ActiveRecord::Base
 
     elsif self.name == "Catbus  "
 
+      pid = fork{ exec 'afplay', "./gds_music/catbus_song.mp3" } 
+
       Catpix::print_image "./gds_pics/catbus_pixel.jpg",
       :limit_x => 1,
       :limit_y => 0,
@@ -116,8 +122,10 @@ class Character < ActiveRecord::Base
 
     elsif self.name == "Howl    "
 
-      Catpix::print_image "./gds_pics/howl_pixel.png",
-      :limit_x => 1,
+      pid = fork{ exec 'afplay', "./gds_music/howl_song.mp3" } 
+
+      Catpix::print_image "./gds_pics/sexy_howl_pixel.jpg",
+      :limit_x => 0.6,
       :limit_y => 0,
       :center_x => true,
       :center_y => true,
@@ -139,6 +147,8 @@ class Character < ActiveRecord::Base
       #:resolution => "low"
 
     elsif self.name == "Calcifer"
+
+      pid = fork{ exec 'afplay', "./gds_music/calcifer_song.mp3" } 
 
       Catpix::print_image "./gds_pics/calcifer_pixel.jpg",
       :limit_x => 1,
